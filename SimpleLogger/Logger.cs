@@ -6,7 +6,7 @@ using SimpleLogger.Logging;
 
 namespace SimpleLogger
 {
-    public sealed class Logger
+    public static class Logger
     {
         private static readonly LogPublisher LogPublisher;
         private static readonly object Sync = new object();
