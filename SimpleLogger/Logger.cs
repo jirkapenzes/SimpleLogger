@@ -11,6 +11,7 @@ namespace SimpleLogger
         private static readonly LogPublisher LogPublisher;
         private static readonly object Sync = new object();
         private static Level _defaultLevel = Level.Info;
+        private static bool _isTurned = true;
 
         public enum Level
         {
@@ -81,6 +82,9 @@ namespace SimpleLogger
 
         private static void Log(Level level, string message, string callingClass, string callingMethod)
         {
+            if (!_isTurned)
+                return;
+
             var currentDateTime = DateTime.Now;
             LogPublisher.Publish(new LogMessage(level, message, currentDateTime, callingClass, callingMethod));
         }
@@ -96,6 +100,16 @@ namespace SimpleLogger
                     return methodBase;
             }
             return MethodBase.GetCurrentMethod();
+        }
+
+        public static void On()
+        {
+            _isTurned = true;
+        }
+
+        public static void Off()
+        {
+            _isTurned = false;
         }
     }
 }
