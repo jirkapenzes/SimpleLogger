@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using SimpleLogger.Logging;
+using SimpleLogger.Logging.Module;
 
 namespace SimpleLogger
 {
     public static class Logger
     {
         private static readonly LogPublisher LogPublisher;
+        private static readonly ModuleManager ModuleManager;
+
         private static readonly object Sync = new object();
         private static Level _defaultLevel = Level.Info;
         private static bool _isTurned = true;
@@ -23,6 +27,7 @@ namespace SimpleLogger
             lock (Sync)
             {
                 LogPublisher = new LogPublisher();
+                ModuleManager = new ModuleManager();
             }
         }
 
@@ -57,6 +62,7 @@ namespace SimpleLogger
 
         public static void Log(Exception exception)
         {
+            ModuleManager.ExceptionLog(exception);
             Log(Level.Error, exception.Message);
         }
 
@@ -86,7 +92,12 @@ namespace SimpleLogger
                 return;
 
             var currentDateTime = DateTime.Now;
-            LogPublisher.Publish(new LogMessage(level, message, currentDateTime, callingClass, callingMethod));
+
+            ModuleManager.BeforeLog();
+            var logMessage = new LogMessage(level, message, currentDateTime, callingClass, callingMethod);
+
+            LogPublisher.Publish(logMessage);
+            ModuleManager.AfterLog(logMessage);
         }
 
         private static MethodBase GetCallingMethodBase()
@@ -110,6 +121,11 @@ namespace SimpleLogger
         public static void Off()
         {
             _isTurned = false;
+        }
+
+        public static IList<LoggerModule> Modules
+        {
+            get { return ModuleManager.Modules; }
         }
     }
 }
