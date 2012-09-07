@@ -42,7 +42,5 @@ namespace SimpleLogger.Logging.Module
         {
             get { return _modules; }
         }
-
-
     }
 }

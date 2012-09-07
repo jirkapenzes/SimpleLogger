@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logger.cs" />
+    <Compile Include="Logging\Module\LoggerModule.cs" />
+    <Compile Include="Logging\Module\ModuleManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logging\Handlers\ConsoleLoggerHandler.cs" />
     <Compile Include="Logging\Handlers\DebugConsoleLoggerHandler.cs" />

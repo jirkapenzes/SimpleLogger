@@ -19,7 +19,12 @@ namespace SimpleLogger
 
         public enum Level
         {
-            None, Info, Warning, Error, Severe, Fine
+            None,
+            Info,
+            Warning,
+            Error,
+            Severe,
+            Fine
         }
 
         static Logger()
@@ -68,7 +73,8 @@ namespace SimpleLogger
 
         public static void Log<TClass>(Exception exception) where TClass : class
         {
-            var message = string.Format("Log exception -> Message: {0}\nStackTrace: {1}", exception.Message, exception.StackTrace);
+            var message = string.Format("Log exception -> Message: {0}\nStackTrace: {1}", exception.Message,
+                                        exception.StackTrace);
             Log<TClass>(Level.Error, message);
         }
 
@@ -126,6 +132,11 @@ namespace SimpleLogger
         public static IList<LoggerModule> Modules
         {
             get { return ModuleManager.Modules; }
+        }
+
+        public static IEnumerable<LogMessage> Messages
+        {
+            get { return LogPublisher.Messages; }
         }
     }
 }
