@@ -24,7 +24,8 @@ namespace SimpleLogger
             Warning,
             Error,
             Severe,
-            Fine
+            Fine,
+            Debug
         }
 
         static Logger()
