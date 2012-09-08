@@ -37,9 +37,10 @@ namespace SimpleLogger
             }
         }
 
-        public static void SetDefaultLevel(Level level = Level.Info)
+        public static Level DefaultLevel
         {
-            _defaultLevel = level;
+            get { return _defaultLevel; }
+            set { _defaultLevel = value; }
         }
 
         public static ILoggerHandlerManager LoggerHandlerManager

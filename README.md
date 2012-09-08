@@ -28,7 +28,7 @@ Usage
         Logger.Log<Program>(Logger.Level.Fine, "Hello world");
 
         // Settings of default type of message
-        Logger.SetDefaultLevel(Logger.Level.Severe);
+        Logger.DefaultLevel = Logger.Level.Severe;
 
         try { }
         catch (Exception exception)
