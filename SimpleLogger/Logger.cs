@@ -12,10 +12,12 @@ namespace SimpleLogger
     {
         private static readonly LogPublisher LogPublisher;
         private static readonly ModuleManager ModuleManager;
+        private static readonly DebugLogger DebugLogger;
 
         private static readonly object Sync = new object();
         private static Level _defaultLevel = Level.Info;
         private static bool _isTurned = true;
+        private static bool _isTurnedDebug = true;
 
         public enum Level
         {
@@ -96,7 +98,7 @@ namespace SimpleLogger
 
         private static void Log(Level level, string message, string callingClass, string callingMethod)
         {
-            if (!_isTurned)
+            if (!_isTurned || (!_isTurnedDebug && level == Level.Debug))
                 return;
 
             var currentDateTime = DateTime.Now;
@@ -131,6 +133,16 @@ namespace SimpleLogger
             _isTurned = false;
         }
 
+        public static void DebugOn()
+        {
+            _isTurnedDebug = true;
+        }
+
+        public static void DebugOff()
+        {
+            _isTurnedDebug = false;
+        }
+
         public static IList<LoggerModule> Modules
         {
             get { return ModuleManager.Modules; }
@@ -139,6 +151,11 @@ namespace SimpleLogger
         public static IEnumerable<LogMessage> Messages
         {
             get { return LogPublisher.Messages; }
+        }
+
+        public static DebugLogger Debug
+        {
+            get { return DebugLogger; }
         }
     }
 }
