@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Logger.cs" />
     <Compile Include="Logging\DebugLogger.cs" />
+    <Compile Include="Logging\Module\EmailSenderLoggerModule.cs" />
     <Compile Include="Logging\Module\LoggerModule.cs" />
     <Compile Include="Logging\Module\ModuleManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
