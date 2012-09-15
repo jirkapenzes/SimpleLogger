@@ -67,7 +67,7 @@ namespace SimpleLogger.Sample
             catch (Exception exception)
             {
                 // Log exception
-                // When you catch an exception error -> will be sent an email with a list of log message.
+                // If you catch an exception error -> will be sent an email with a list of log message.
                 Logger.Log(exception);
             }
         }

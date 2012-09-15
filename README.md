@@ -5,7 +5,7 @@ Very easy to use.
 
 Usage
 -------
-
+```csharp
     public static void Main()
     {
         // Adding handler - to show log messages (ILoggerHandler)
@@ -38,4 +38,37 @@ Usage
             Logger.Log(exception);
             Logger.Log<Program>(exception);
         }
+
+        // Email module sample
+        EmaiLModuleSample();
     }
+
+    public static void EmaiLModuleSample()
+    {
+        // Configuring smtp server
+        var smtpServerConfiguration = new SmtpServerConfiguration("userName", "password", "smtp.gmail.com", 587);
+
+        // Creating a module
+        var emailSenderLoggerModule = new EmailSenderLoggerModule(smtpServerConfiguration)
+        {
+            EnableSsl = true,
+            Sender = "sender-email@gmail.com"
+        };
+
+        // Adding recipients
+        emailSenderLoggerModule.Recipients.Add("recipients@gmail.com");
+        Logger.Modules.Add(emailSenderLoggerModule);
+
+        try
+        {
+            // Simulation of exceptions
+            throw new NullReferenceException();
+        }
+        catch (Exception exception)
+        {
+            // Log exception
+            // If you catch an exception error -> will be sent an email with a list of log message.
+            Logger.Log(exception);
+        }
+    }
+```
