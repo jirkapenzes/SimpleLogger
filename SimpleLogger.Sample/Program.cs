@@ -1,5 +1,6 @@
 ﻿using System;
 using SimpleLogger.Logging.Handlers;
+using SimpleLogger.Logging.Module;
 
 namespace SimpleLogger.Sample
 {
@@ -36,6 +37,38 @@ namespace SimpleLogger.Sample
                 // Automatical adjustment of specific log into the Error and adding of StackTrace
                 Logger.Log(exception);
                 Logger.Log<Program>(exception);
+            }
+
+            // Email module sample
+            EmaiLModuleSample();
+        }
+
+        public static void EmaiLModuleSample()
+        {
+            // Configuring smtp server
+            var smtpServerConfiguration = new SmtpServerConfiguration("userName", "password", "smtp.gmail.com", 587);
+
+            // Creating a module
+            var emailSenderLoggerModule = new EmailSenderLoggerModule(smtpServerConfiguration)
+            {
+                EnableSsl = true,
+                Sender = "sender-email@gmail.com"
+            };
+
+            // Adding recipients
+            emailSenderLoggerModule.Recipients.Add("recipients@gmail.com");
+            Logger.Modules.Add(emailSenderLoggerModule);
+
+            try
+            {
+                // Simulation of exceptions
+                throw new NullReferenceException();
+            }
+            catch (Exception exception)
+            {
+                // Log exception
+                // When you catch an exception error -> will be sent an email with a list of log message.
+                Logger.Log(exception);
             }
         }
     }
