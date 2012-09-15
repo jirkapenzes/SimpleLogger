@@ -81,8 +81,8 @@ namespace SimpleLogger
 
         public static void Log(Exception exception)
         {
-            ModuleManager.ExceptionLog(exception);
             Log(Level.Error, exception.Message);
+            ModuleManager.ExceptionLog(exception);
         }
 
         public static void Log<TClass>(Exception exception) where TClass : class
@@ -112,10 +112,9 @@ namespace SimpleLogger
                 return;
 
             var currentDateTime = DateTime.Now;
-
+            
             ModuleManager.BeforeLog();
             var logMessage = new LogMessage(level, message, currentDateTime, callingClass, callingMethod);
-
             LogPublisher.Publish(logMessage);
             ModuleManager.AfterLog(logMessage);
         }
