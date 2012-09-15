@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using SimpleLogger.Logging;
+using SimpleLogger.Logging.Handlers;
 using SimpleLogger.Logging.Module;
 
 namespace SimpleLogger
@@ -37,6 +38,15 @@ namespace SimpleLogger
                 LogPublisher = new LogPublisher();
                 ModuleManager = new ModuleManager();
             }
+        }
+
+        public static void DefaultInitialization()
+        {
+            LoggerHandlerManager
+                .AddHandler(new ConsoleLoggerHandler())
+                .AddHandler(new FileLoggerHandler());
+
+            Log(Level.Info, "Default initialization");
         }
 
         public static Level DefaultLevel
