@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SimpleLogger.Logging.Module
 {
-    public class ModuleManager : IDisposable
+    public class ModuleManager
     {
         private readonly IList<LoggerModule> _modules;
 
@@ -30,12 +30,6 @@ namespace SimpleLogger.Logging.Module
         {
             foreach (var loggerModule in _modules)
                 loggerModule.ExceptionLog(exception);
-        }
-
-        public void Dispose()
-        {
-            foreach (var loggerModule in Modules)
-                loggerModule.Dispose();
         }
 
         public IList<LoggerModule> Modules
