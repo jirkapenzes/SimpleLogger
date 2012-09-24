@@ -40,7 +40,14 @@ namespace SimpleLogger.Sample
             }
 
             // Email module sample
-            EmaiLModuleSample();
+            // EmaiLModuleSample();
+            // MsSqlDatabaseLoggerModuleSample();
+        }
+
+        private static void MsSqlDatabaseLoggerModuleSample()
+        {
+            Logger.Modules.Add(new MsSqlDatabaseLoggerModule("Your connection string"));
+            Logger.Log("My first database log! ");
         }
 
         public static void EmaiLModuleSample()
