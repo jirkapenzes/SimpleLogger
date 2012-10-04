@@ -39,6 +39,20 @@ namespace SimpleLogger.Sample
                 Logger.Log<Program>(exception);
             }
 
+            // Special feature - debug logging
+
+            Logger.Debug.Log("Debug log");
+            Logger.Debug.Log<Program>("Debug log");
+
+            // Default = on
+            Logger.DebugOff();
+            Logger.Debug.Log("Not-logged message");
+
+            Logger.DebugOn();
+            Logger.Debug.Log("I'am back!");
+
+
+            // Module sample methods
             MsSqlDatabaseLoggerModuleSample();
             EmailModuleSample();
 
