@@ -39,9 +39,10 @@ namespace SimpleLogger.Sample
                 Logger.Log<Program>(exception);
             }
 
-            // Email module sample
-            // EmaiLModuleSample();
-            // MsSqlDatabaseLoggerModuleSample();
+            MsSqlDatabaseLoggerModuleSample();
+            EmailModuleSample();
+
+            Console.ReadKey();
         }
 
         private static void MsSqlDatabaseLoggerModuleSample()
@@ -50,7 +51,7 @@ namespace SimpleLogger.Sample
             Logger.Log("My first database log! ");
         }
 
-        public static void EmaiLModuleSample()
+        public static void EmailModuleSample()
         {
             // Configuring smtp server
             var smtpServerConfiguration = new SmtpServerConfiguration("userName", "password", "smtp.gmail.com", 587);
