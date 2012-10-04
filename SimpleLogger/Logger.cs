@@ -72,11 +72,13 @@ namespace SimpleLogger
 
         public static void Log(Level level, string message)
         {
-            var methodBase = GetCallingMethodBase();
+            var stackFrame = FindStackFrame();
+            var methodBase = GetCallingMethodBase(stackFrame);
             var callingMethod = methodBase.Name;
             var callingClass = methodBase.ReflectedType.Name;
+            var lineNumber = stackFrame.GetFileLineNumber();
 
-            Log(level, message, callingClass, callingMethod);
+            Log(level, message, callingClass, callingMethod, lineNumber);
         }
 
         public static void Log(Exception exception)
@@ -99,27 +101,35 @@ namespace SimpleLogger
 
         public static void Log<TClass>(Level level, string message) where TClass : class
         {
-            var methodBase = GetCallingMethodBase();
+            var stackFrame = FindStackFrame();
+            var methodBase = GetCallingMethodBase(stackFrame);
             var callingMethod = methodBase.Name;
             var callingClass = typeof(TClass).Name;
+            var lineNumber = stackFrame.GetFileLineNumber();
 
-            Log(level, message, callingClass, callingMethod);
+            Log(level, message, callingClass, callingMethod, lineNumber);
         }
 
-        private static void Log(Level level, string message, string callingClass, string callingMethod)
+        private static void Log(Level level, string message, string callingClass, string callingMethod, int lineNumber)
         {
             if (!_isTurned || (!_isTurnedDebug && level == Level.Debug))
                 return;
 
             var currentDateTime = DateTime.Now;
-            
+
             ModuleManager.BeforeLog();
-            var logMessage = new LogMessage(level, message, currentDateTime, callingClass, callingMethod);
+            var logMessage = new LogMessage(level, message, currentDateTime, callingClass, callingMethod, lineNumber);
             LogPublisher.Publish(logMessage);
             ModuleManager.AfterLog(logMessage);
         }
 
-        private static MethodBase GetCallingMethodBase()
+        private static MethodBase GetCallingMethodBase(StackFrame stackFrame)
+        {
+            return stackFrame == null
+                ? MethodBase.GetCurrentMethod() : stackFrame.GetMethod();
+        }
+
+        private static StackFrame FindStackFrame()
         {
             var stackTrace = new StackTrace();
             for (var i = 0; i < stackTrace.GetFrames().Count(); i++)
@@ -127,9 +137,9 @@ namespace SimpleLogger
                 var methodBase = stackTrace.GetFrame(i).GetMethod();
                 var name = MethodBase.GetCurrentMethod().Name;
                 if (!methodBase.Name.Equals("Log") && !methodBase.Name.Equals(name))
-                    return methodBase;
+                    return new StackFrame(i, true);
             }
-            return MethodBase.GetCurrentMethod();
+            return null;
         }
 
         public static void On()
