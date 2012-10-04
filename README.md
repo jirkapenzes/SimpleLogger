@@ -39,10 +39,17 @@ Usage
             Logger.Log<Program>(exception);
         }
 
-        // Email module sample
-        EmaiLModuleSample();
     }
 
+
+```
+
+Modules
+-------
+### Email module
+
+```csharp
+    // Email module sample
     public static void EmaiLModuleSample()
     {
         // Configuring smtp server
@@ -70,5 +77,18 @@ Usage
             // If you catch an exception error -> will be sent an email with a list of log message.
             Logger.Log(exception);
         }
+    }
+```
+
+### MS SQL database module
+```csharp
+    // MS SQL database module sample
+    public static void MsSqlDatabaseLoggerModuleSample()
+    {
+        var connectionString = "Your connection string";
+
+        // Just add the module and it works! 
+        Logger.Modules.Add(new MsSqlDatabaseLoggerModule(connectionString));
+        Logger.Log("My first database log! ");
     }
 ```
