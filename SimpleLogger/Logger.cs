@@ -37,6 +37,7 @@ namespace SimpleLogger
             {
                 LogPublisher = new LogPublisher();
                 ModuleManager = new ModuleManager();
+                DebugLogger = new DebugLogger();
             }
         }
 
