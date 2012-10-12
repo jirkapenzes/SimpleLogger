@@ -57,14 +57,19 @@ Usage
 
 #### Output
 ```
-12.10.2012 21:40: Info [line: 18 Program -> Main()]: There is no message
-12.10.2012 21:40: Info [line: 21 Program -> Main()]: Hello world
-12.10.2012 21:40: Fine [line: 24 Program -> Main()]: Explicit define level
-12.10.2012 21:40: Info [line: 27 Program -> Main()]: Explicit define log class
-12.10.2012 21:40: Fine [line: 28 Program -> Main()]: Explicit define log class and level
-12.10.2012 21:40: Debug [line: 44 Program -> Main()]: Debug log
-12.10.2012 21:40: Debug [line: 45 Program -> Main()]: Debug log
-12.10.2012 21:40: Debug [line: 52 Program -> Main()]: I'am back!
+12.10.2012 21:43: Info [line: 18 Program -> Main()]: There is no message
+12.10.2012 21:43: Info [line: 21 Program -> Main()]: Hello world
+12.10.2012 21:43: Fine [line: 24 Program -> Main()]: Explicit define level
+12.10.2012 21:43: Info [line: 27 Program -> Main()]: Explicit define log class
+12.10.2012 21:43: Fine [line: 28 Program -> Main()]: Explicit define log class and level
+12.10.2012 21:43: Error [line: 35 Program -> Main()]: Exception of type 'System.Exception' was thrown.
+12.10.2012 21:43: Error [line: 35 Program -> Main()]: Log exception -> Message: Exception of type 'System.Exception' was thrown.
+StackTrace:    at SimpleLogger.Sample.Program.Main() in c:\GitHub\SimpleLogger\SimpleLogger.Sample\Program.cs:line 35
+
+12.10.2012 21:43: Debug [line: 47 Program -> Main()]: Debug log
+12.10.2012 21:43: Debug [line: 48 Program -> Main()]: Debug log
+12.10.2012 21:43: Debug [line: 55 Program -> Main()]: I'am back!
+
 ```
 
 
