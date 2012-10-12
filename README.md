@@ -21,11 +21,11 @@ Usage
         Logger.Log("Hello world");
 
         // We can define the level (type) of message
-        Logger.Log(Logger.Level.Fine, "Hello world");
+        Logger.Log(Logger.Level.Fine, "Explicit define level");
 
         // Explicit definition of the class from which the logging
-        Logger.Log<Program>("Hello world");
-        Logger.Log<Program>(Logger.Level.Fine, "Hello world");
+        Logger.Log<Program>("Explicit define log class");
+        Logger.Log<Program>(Logger.Level.Fine, "Explicit define log class and level");
 
         // Settings of default type of message
         Logger.DefaultLevel = Logger.Level.Severe;
@@ -39,10 +39,34 @@ Usage
             Logger.Log<Program>(exception);
         }
 
+        // Special feature - debug logging
+
+        Logger.Debug.Log("Debug log");
+        Logger.Debug.Log<Program>("Debug log");
+
+        // Default = on
+        Logger.DebugOff();
+        Logger.Debug.Log("Not-logged message");
+
+        Logger.DebugOn();
+        Logger.Debug.Log("I'am back!");
+
+        Console.ReadKey();
     }
-
-
 ```
+
+#### Output
+```
+12.10.2012 21:40: Info [line: 18 Program -> Main()]: There is no message
+12.10.2012 21:40: Info [line: 21 Program -> Main()]: Hello world
+12.10.2012 21:40: Fine [line: 24 Program -> Main()]: Explicit define level
+12.10.2012 21:40: Info [line: 27 Program -> Main()]: Explicit define log class
+12.10.2012 21:40: Fine [line: 28 Program -> Main()]: Explicit define log class and level
+12.10.2012 21:40: Debug [line: 44 Program -> Main()]: Debug log
+12.10.2012 21:40: Debug [line: 45 Program -> Main()]: Debug log
+12.10.2012 21:40: Debug [line: 52 Program -> Main()]: I'am back!
+```
+
 
 Modules
 -------
