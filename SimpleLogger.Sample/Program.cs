@@ -21,16 +21,19 @@ namespace SimpleLogger.Sample
             Logger.Log("Hello world");
 
             // We can define the level (type) of message
-            Logger.Log(Logger.Level.Fine, "Hello world");
+            Logger.Log(Logger.Level.Fine, "Explicit define level");
 
             // Explicit definition of the class from which the logging
-            Logger.Log<Program>("Hello world");
-            Logger.Log<Program>(Logger.Level.Fine, "Hello world");
+            Logger.Log<Program>("Explicit define log class");
+            Logger.Log<Program>(Logger.Level.Fine, "Explicit define log class and level");
 
             // Settings of default type of message
             Logger.DefaultLevel = Logger.Level.Severe;
 
-            try { }
+            try
+            {
+                throw new Exception();
+            }
             catch (Exception exception)
             {
                 // Logging exceptions
@@ -50,11 +53,6 @@ namespace SimpleLogger.Sample
 
             Logger.DebugOn();
             Logger.Debug.Log("I'am back!");
-
-
-            // Module sample methods
-            MsSqlDatabaseLoggerModuleSample();
-            EmailModuleSample();
 
             Console.ReadKey();
         }
