@@ -32,6 +32,7 @@ namespace SimpleLogger.Sample
 
             try
             {
+                // Simulation of exceptions
                 throw new Exception();
             }
             catch (Exception exception)
@@ -47,7 +48,6 @@ namespace SimpleLogger.Sample
             Logger.Debug.Log("Debug log");
             Logger.Debug.Log<Program>("Debug log");
 
-            // Default = on
             Logger.DebugOff();
             Logger.Debug.Log("Not-logged message");
 
@@ -59,6 +59,7 @@ namespace SimpleLogger.Sample
 
         private static void MsSqlDatabaseLoggerModuleSample()
         {
+            // Just add the module and it works! 
             Logger.Modules.Add(new MsSqlDatabaseLoggerModule("Your connection string"));
             Logger.Log("My first database log! ");
         }
@@ -75,8 +76,10 @@ namespace SimpleLogger.Sample
                 Sender = "sender-email@gmail.com"
             };
 
-            // Adding recipients
+            // Add the module and it works
             emailSenderLoggerModule.Recipients.Add("recipients@gmail.com");
+
+            //  // Simulation of exceptions
             Logger.Modules.Add(emailSenderLoggerModule);
 
             try
