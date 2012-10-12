@@ -30,7 +30,10 @@ Usage
         // Settings of default type of message
         Logger.DefaultLevel = Logger.Level.Severe;
 
-        try { }
+        try 
+        { 
+            throw new Exception();
+        }
         catch (Exception exception)
         {
             // Logging exceptions
