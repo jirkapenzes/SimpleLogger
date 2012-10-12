@@ -32,6 +32,7 @@ Usage
 
         try 
         { 
+            // Simulation of exceptions
             throw new Exception();
         }
         catch (Exception exception)
@@ -47,7 +48,6 @@ Usage
         Logger.Debug.Log("Debug log");
         Logger.Debug.Log<Program>("Debug log");
 
-        // Default = on
         Logger.DebugOff();
         Logger.Debug.Log("Not-logged message");
 
@@ -96,6 +96,8 @@ Modules
 
         // Adding recipients
         emailSenderLoggerModule.Recipients.Add("recipients@gmail.com");
+
+        // Add the module and it works
         Logger.Modules.Add(emailSenderLoggerModule);
 
         try
