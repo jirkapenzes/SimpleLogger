@@ -98,7 +98,7 @@ Modules
         emailSenderLoggerModule.Recipients.Add("recipients@gmail.com");
 
         // Add the module and it works
-        Logger.Modules.Add(emailSenderLoggerModule);
+        Logger.Modules.Install(emailSenderLoggerModule);
 
         try
         {
@@ -122,7 +122,7 @@ Modules
         var connectionString = "Your connection string";
 
         // Just add the module and it works! 
-        Logger.Modules.Add(new MsSqlDatabaseLoggerModule(connectionString));
+        Logger.Modules.Install(new MsSqlDatabaseLoggerModule(connectionString));
         Logger.Log("My first database log! ");
     }
 ```
