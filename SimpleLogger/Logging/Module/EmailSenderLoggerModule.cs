@@ -36,6 +36,11 @@ namespace SimpleLogger.Logging.Module
             Recipients = new List<string>();
         }
 
+        public override string Name
+        {
+            get { return "EmailSenderLoggerModule"; }
+        }
+
         public override void ExceptionLog(Exception exception)
         {
             if (string.IsNullOrEmpty(Sender) || Recipients.Count == 0)

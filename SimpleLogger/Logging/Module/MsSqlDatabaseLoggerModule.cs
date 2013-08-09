@@ -20,6 +20,11 @@ namespace SimpleLogger.Logging.Module
             CreateTable();
         }
 
+        public override string Name
+        {
+            get { return "MsSqlDatabaseLoggerModule"; }
+        }
+
         public override void AfterLog(LogMessage logMessage)
         {
             using (var connection = new SqlConnection(_connectionString))

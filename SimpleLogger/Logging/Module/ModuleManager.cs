@@ -7,34 +7,55 @@ namespace SimpleLogger.Logging.Module
 {
     public class ModuleManager
     {
-        private readonly IList<LoggerModule> _modules;
+        private readonly IDictionary<string, LoggerModule> _modules;
 
         public ModuleManager()
         {
-            _modules = new List<LoggerModule>();
+            _modules = new Dictionary<string, LoggerModule>();
         }
 
         public void BeforeLog()
         {
-            foreach (var loggerModule in _modules)
+            foreach (var loggerModule in _modules.Values)
                 loggerModule.BeforeLog();
         }
 
         public void AfterLog(LogMessage logMessage)
         {
-            foreach (var loggerModule in _modules)
+            foreach (var loggerModule in _modules.Values)
                 loggerModule.AfterLog(logMessage);
         }
 
         public void ExceptionLog(Exception exception)
         {
-            foreach (var loggerModule in _modules)
+            foreach (var loggerModule in _modules.Values)
                 loggerModule.ExceptionLog(exception);
         }
 
-        public IList<LoggerModule> Modules
+        public void Install(LoggerModule module)
         {
-            get { return _modules; }
+            if (!_modules.ContainsKey(module.Name))
+            {
+                _modules.Add(module.Name, module);
+            }
+            else
+            {
+                // reinstall module
+                Uninstall(module.Name);
+                Install(module);
+            }
+        }
+
+        public void Uninstall(LoggerModule module)
+        {
+            if (_modules.ContainsKey(module.Name))
+                _modules.Remove(module.Name);
+        }
+
+        public void Uninstall(string moduleName)
+        {
+            if (_modules.ContainsKey(moduleName))
+                _modules.Remove(moduleName);
         }
     }
 }

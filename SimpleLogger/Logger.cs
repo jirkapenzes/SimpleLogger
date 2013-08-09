@@ -163,11 +163,6 @@ namespace SimpleLogger
             _isTurnedDebug = false;
         }
 
-        public static IList<LoggerModule> Modules
-        {
-            get { return ModuleManager.Modules; }
-        }
-
         public static IEnumerable<LogMessage> Messages
         {
             get { return LogPublisher.Messages; }
@@ -176,6 +171,11 @@ namespace SimpleLogger
         public static DebugLogger Debug
         {
             get { return DebugLogger; }
+        }
+
+        public static ModuleManager Modules
+        {
+            get { return ModuleManager; }
         }
     }
 }

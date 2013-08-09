@@ -60,7 +60,7 @@ namespace SimpleLogger.Sample
         private static void MsSqlDatabaseLoggerModuleSample()
         {
             // Just add the module and it works! 
-            Logger.Modules.Add(new MsSqlDatabaseLoggerModule("Your connection string"));
+            Logger.Modules.Install(new MsSqlDatabaseLoggerModule("Your connection string"));
             Logger.Log("My first database log! ");
         }
 
@@ -80,7 +80,7 @@ namespace SimpleLogger.Sample
             emailSenderLoggerModule.Recipients.Add("recipients@gmail.com");
 
             //  // Simulation of exceptions
-            Logger.Modules.Add(emailSenderLoggerModule);
+            Logger.Modules.Install(emailSenderLoggerModule);
 
             try
             {
