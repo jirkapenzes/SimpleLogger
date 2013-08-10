@@ -17,6 +17,10 @@ namespace SimpleLogger.Logging.Module
         {
             _connectionString = connectionString;
             _tableName = tableName;
+        }
+
+        protected override void Initialize()
+        {
             CreateTable();
         }
 

@@ -36,6 +36,7 @@ namespace SimpleLogger.Logging.Module
         {
             if (!_modules.ContainsKey(module.Name))
             {
+                module.Initialize();
                 _modules.Add(module.Name, module);
             }
             else
