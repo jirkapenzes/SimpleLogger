@@ -19,7 +19,7 @@ namespace SimpleLogger.Logging.Module
             _tableName = tableName;
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             CreateTable();
         }
