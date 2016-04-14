@@ -19,6 +19,7 @@ namespace SimpleLogger.Logging.Module
 
         public DatabaseLoggerModule(DatabaseType databaseType, string connectionString, string tableName)
         {
+            _databaseType = databaseType;
             _connectionString = connectionString;
             _tableName = tableName;
         }
@@ -73,7 +74,9 @@ namespace SimpleLogger.Logging.Module
 
         private void CreateTable()
         {
-            using (var connection = DatabaseFactory.GetConnection(_databaseType, _connectionString))
+            var connection = DatabaseFactory.GetConnection(_databaseType, _connectionString);
+
+            using (connection)
             {
                 connection.Open();
                 var sqlCommand = DatabaseFactory.GetCommand(_databaseType, @"

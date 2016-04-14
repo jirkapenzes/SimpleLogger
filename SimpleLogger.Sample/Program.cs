@@ -55,6 +55,8 @@ namespace SimpleLogger.Sample
             Logger.DebugOn();
             Logger.Debug.Log("I'am back!");
 
+            MsSqlDatabaseLoggerModuleSample();
+
             Console.ReadKey();
         }
 
