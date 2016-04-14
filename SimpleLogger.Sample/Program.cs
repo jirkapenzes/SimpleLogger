@@ -1,6 +1,7 @@
 ﻿using System;
 using SimpleLogger.Logging.Handlers;
 using SimpleLogger.Logging.Module;
+using SimpleLogger.Logging.Module.Database;
 
 namespace SimpleLogger.Sample
 {
@@ -60,7 +61,7 @@ namespace SimpleLogger.Sample
         private static void MsSqlDatabaseLoggerModuleSample()
         {
             // Just add the module and it works! 
-            Logger.Modules.Install(new DatabaseLoggerModule("Your connection string"));
+            Logger.Modules.Install(new DatabaseLoggerModule(DatabaseType.MsSql, "Your connection string"));
             Logger.Log("My first database log! ");
         }
 

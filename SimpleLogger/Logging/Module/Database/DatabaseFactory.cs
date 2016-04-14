@@ -8,9 +8,9 @@ using System.Text;
 
 namespace SimpleLogger.Logging.Module.Database
 {
-    public class DatabaseFactory
+    public static class DatabaseFactory
     {
-        public DbConnection GetConnection(DatabaseType databaseType, string connectionString)
+        public static DbConnection GetConnection(DatabaseType databaseType, string connectionString)
         {
             switch (databaseType)
             {
@@ -23,7 +23,7 @@ namespace SimpleLogger.Logging.Module.Database
             return null;
         }
 
-        public DbCommand GetCommand(DatabaseType databaseType, DbConnection connection, string commandText)
+        public static DbCommand GetCommand(DatabaseType databaseType, string commandText, DbConnection connection)
         {
             switch (databaseType)
             {
