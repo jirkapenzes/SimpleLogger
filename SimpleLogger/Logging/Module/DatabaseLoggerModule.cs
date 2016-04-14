@@ -6,14 +6,14 @@ using System.Text;
 
 namespace SimpleLogger.Logging.Module
 {
-    public class MsSqlDatabaseLoggerModule : LoggerModule
+    public class DatabaseLoggerModule : LoggerModule
     {
         private readonly string _connectionString;
         private readonly string _tableName;
 
-        public MsSqlDatabaseLoggerModule(string connectionString) : this(connectionString, "Log") { }
+        public DatabaseLoggerModule(string connectionString) : this(connectionString, "Log") { }
 
-        public MsSqlDatabaseLoggerModule(string connectionString, string tableName)
+        public DatabaseLoggerModule(string connectionString, string tableName)
         {
             _connectionString = connectionString;
             _tableName = tableName;
