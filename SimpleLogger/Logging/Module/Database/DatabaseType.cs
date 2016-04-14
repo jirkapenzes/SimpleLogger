@@ -8,6 +8,7 @@ namespace SimpleLogger.Logging.Module.Database
     public enum DatabaseType
     {
         MsSql = 1,
-        Oracle = 2
+        Oracle = 2,
+        MySql = 3
     }
 }

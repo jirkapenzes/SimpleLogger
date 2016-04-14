@@ -1,4 +1,5 @@
-﻿using Oracle.DataAccess.Client;
+﻿using MySql.Data.MySqlClient;
+using Oracle.DataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -18,6 +19,8 @@ namespace SimpleLogger.Logging.Module.Database
                     return new SqlConnection(connectionString);
                 case DatabaseType.Oracle:
                     return new OracleConnection(connectionString);
+                case DatabaseType.MySql:
+                    return new MySqlConnection(connectionString);
             }
 
             return null;
@@ -31,6 +34,8 @@ namespace SimpleLogger.Logging.Module.Database
                     return new SqlCommand(commandText, connection as SqlConnection);
                 case DatabaseType.Oracle:
                     return new OracleCommand(commandText, connection as OracleConnection);
+                case DatabaseType.MySql:
+                    return new MySqlCommand(commandText, connection as MySqlConnection);
             }
 
             return null;
