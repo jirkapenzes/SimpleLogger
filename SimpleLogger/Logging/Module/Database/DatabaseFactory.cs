@@ -40,5 +40,20 @@ namespace SimpleLogger.Logging.Module.Database
 
             return null;
         }
+
+        public static string GetDatabaseName(DatabaseType databaseType)
+        {
+            switch (databaseType)
+            {
+                case DatabaseType.MsSql:
+                    return "MsSqlDatabaseLoggerModule";
+                case DatabaseType.Oracle:
+                    return "OracleDatabaseLoggerModule";
+                case DatabaseType.MySql:
+                    return "MySqlDatabaseLoggerModule";
+            }
+
+            return string.Empty;
+        }
     }
 }

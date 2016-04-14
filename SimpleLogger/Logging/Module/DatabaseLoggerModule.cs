@@ -31,7 +31,7 @@ namespace SimpleLogger.Logging.Module
 
         public override string Name
         {
-            get { return "MsSqlDatabaseLoggerModule"; }
+            get { return DatabaseFactory.GetDatabaseName(_databaseType); }
         }
 
         private DbParameter GetParameter(DbCommand command, string name, object value, DbType type)
