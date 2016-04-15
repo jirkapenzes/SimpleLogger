@@ -66,12 +66,12 @@ namespace SimpleLogger.Logging.Module.Database
 	                            Id int not null primary key identity, 
                                 Text nvarchar(4000) null, 
                                 DateTime datetime null, 
-                                Level nvarchar(10) null, 
+                                Log_Level nvarchar(10) null, 
                                 CallingClass nvarchar(500) NULL, 
                                 CallingMethod nvarchar(500) NULL
                             );";
                 case DatabaseType.Oracle:
-                    return @"create table Log
+                    return @"create table {0}
                                 (
                                  Id int not null primary key, 
                                    Text varchar2(4000) null, 
@@ -84,10 +84,10 @@ namespace SimpleLogger.Logging.Module.Database
                 case DatabaseType.MySql:
                     return @"create table {0}
                             (
-	                            Id int not null
+	                            Id int not null auto_increment,
                                 Text varchar(4000) null, 
                                 DateTime datetime null, 
-                                Level varchar(10) null, 
+                                Log_Level varchar(10) null, 
                                 CallingClass varchar(500) NULL, 
                                 CallingMethod varchar(500) NULL,
                                 PRIMARY KEY (Id)
@@ -107,9 +107,13 @@ namespace SimpleLogger.Logging.Module.Database
                               WHERE type_desc LIKE '%USER_TABLE' 
                                 AND lower(object_name(object_id)) like @tableName;";
                 case DatabaseType.Oracle:
-                    return @"SELECT TABLE_NAME FROM ALL_TABLES WHERE LOWER(TABLE_NAME) LIKE :tableName";
+                    return @"SELECT TABLE_NAME 
+                               FROM ALL_TABLES 
+                              WHERE LOWER(TABLE_NAME) LIKE :tableName";
                 case DatabaseType.MySql:
-                    return @"";
+                    return @"SELECT table_name
+                               FROM information_schema.tables
+                              WHERE LOWER(table_name) = @tableName;";
             }
 
             return string.Empty;
@@ -121,13 +125,13 @@ namespace SimpleLogger.Logging.Module.Database
             {
                 case DatabaseType.MsSql:
                     return string.Format(@"insert into {0} (Text, DateTime, Log_Level, CallingClass, CallingMethod) 
-                                           values (:text, :dateTime, :log_level, :callingClass, :callingMethod);", tableName);
+                                           values (@text, @dateTime, @log_level, @callingClass, @callingMethod);", tableName);
                 case DatabaseType.Oracle:
                     return string.Format(@"insert into {0} (Id, Text, DateTime, Log_Level, CallingClass, CallingMethod) 
                                            values (seq_log.nextval, :text, :dateTime, :log_level, :callingClass, :callingMethod)", tableName);
                 case DatabaseType.MySql:
                     return string.Format(@"insert into {0} (Text, DateTime, Log_Level, CallingClass, CallingMethod) 
-                                           values (:text, :dateTime, :log_level, :callingClass, :callingMethod);", tableName);
+                                           values (@text, @dateTime, @log_level, @callingClass, @callingMethod);", tableName);
             }
 
             return string.Empty;

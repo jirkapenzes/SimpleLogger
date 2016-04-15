@@ -63,7 +63,7 @@ namespace SimpleLogger.Sample
         private static void MsSqlDatabaseLoggerModuleSample()
         {
             // Just add the module and it works! 
-            Logger.Modules.Install(new DatabaseLoggerModule(DatabaseType.Oracle, "Your connection string here"));
+            Logger.Modules.Install(new DatabaseLoggerModule(DatabaseType.MySql, ""));
             Logger.Log("My first database log! ");
         }
 

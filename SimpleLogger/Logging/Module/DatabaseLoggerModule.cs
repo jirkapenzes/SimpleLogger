@@ -38,7 +38,7 @@ namespace SimpleLogger.Logging.Module
         {
             var parameter = command.CreateParameter();
             parameter.DbType = type;
-            parameter.ParameterName = name;
+            parameter.ParameterName = (_databaseType.Equals(DatabaseType.Oracle) ? ":" : "@") + name;
             parameter.Value = value;
             return parameter;
         }
@@ -56,11 +56,11 @@ namespace SimpleLogger.Logging.Module
                 var commandText = DatabaseFactory.GetInsertCommand(_databaseType, _tableName);
                 var sqlCommand = DatabaseFactory.GetCommand(_databaseType, commandText, connection);
 
-                AddParameter(sqlCommand, ":text", logMessage.Text, DbType.String);
-                AddParameter(sqlCommand, ":dateTime", logMessage.DateTime, DbType.Date);
-                AddParameter(sqlCommand, ":log_level", logMessage.Level.ToString(), DbType.String);
-                AddParameter(sqlCommand, ":callingClass", logMessage.CallingClass, DbType.String);
-                AddParameter(sqlCommand, ":callingMethod", logMessage.CallingMethod, DbType.String);
+                AddParameter(sqlCommand, "text", logMessage.Text, DbType.String);
+                AddParameter(sqlCommand, "dateTime", logMessage.DateTime, DbType.Date);
+                AddParameter(sqlCommand, "log_level", logMessage.Level.ToString(), DbType.String);
+                AddParameter(sqlCommand, "callingClass", logMessage.CallingClass, DbType.String);
+                AddParameter(sqlCommand, "callingMethod", logMessage.CallingMethod, DbType.String);
 
                 sqlCommand.ExecuteNonQuery();
             }
@@ -80,7 +80,7 @@ namespace SimpleLogger.Logging.Module
                     connection
                 );
 
-                AddParameter(sqlCommand, ":tableName", _tableName.ToLower(), DbType.String);
+                AddParameter(sqlCommand, "tableName", _tableName.ToLower(), DbType.String);
 
                 var result = sqlCommand.ExecuteScalar();
 
