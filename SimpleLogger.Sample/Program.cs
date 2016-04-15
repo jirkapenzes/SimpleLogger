@@ -55,15 +55,27 @@ namespace SimpleLogger.Sample
             Logger.DebugOn();
             Logger.Debug.Log("I'am back!");
 
-            MsSqlDatabaseLoggerModuleSample();
-
             Console.ReadKey();
+        }
+
+        private static void MySqlDatabaseLoggerModuleSample()
+        {
+            // Just add the module and it works! 
+            Logger.Modules.Install(new DatabaseLoggerModule(DatabaseType.MySql, "Your connection string here!"));
+            Logger.Log("My first database log! ");
         }
 
         private static void MsSqlDatabaseLoggerModuleSample()
         {
             // Just add the module and it works! 
-            Logger.Modules.Install(new DatabaseLoggerModule(DatabaseType.MySql, ""));
+            Logger.Modules.Install(new DatabaseLoggerModule(DatabaseType.MsSql, "Your connection string here!"));
+            Logger.Log("My first database log! ");
+        }
+
+        private static void OracleDatabaseLoggerModuleSample()
+        {
+            // Just add the module and it works! 
+            Logger.Modules.Install(new DatabaseLoggerModule(DatabaseType.Oracle, "Your connection string here!"));
             Logger.Log("My first database log! ");
         }
 
