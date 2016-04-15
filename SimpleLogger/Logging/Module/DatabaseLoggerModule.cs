@@ -53,23 +53,17 @@ namespace SimpleLogger.Logging.Module
             using (var connection = DatabaseFactory.GetConnection(_databaseType, _connectionString))
             {
                 connection.Open();
-                var commandText = MakeInsertSqlCommand();
+                var commandText = DatabaseFactory.GetInsertCommand(_databaseType, _tableName);
                 var sqlCommand = DatabaseFactory.GetCommand(_databaseType, commandText, connection);
 
-                AddParameter(sqlCommand, "@text", logMessage.Text, DbType.String);
-                AddParameter(sqlCommand, "@dateTime", logMessage.DateTime, DbType.DateTime);
-                AddParameter(sqlCommand, "@level", logMessage.Level.ToString(), DbType.String);
-                AddParameter(sqlCommand, "@callingClass", logMessage.CallingClass, DbType.String);
-                AddParameter(sqlCommand, "@callingMethod", logMessage.CallingMethod, DbType.String);
+                AddParameter(sqlCommand, ":text", logMessage.Text, DbType.String);
+                AddParameter(sqlCommand, ":dateTime", logMessage.DateTime, DbType.Date);
+                AddParameter(sqlCommand, ":log_level", logMessage.Level.ToString(), DbType.String);
+                AddParameter(sqlCommand, ":callingClass", logMessage.CallingClass, DbType.String);
+                AddParameter(sqlCommand, ":callingMethod", logMessage.CallingMethod, DbType.String);
 
                 sqlCommand.ExecuteNonQuery();
             }
-        }
-
-        private string MakeInsertSqlCommand()
-        {
-            return string.Format(@"insert into {0} (Text, DateTime, Level, CallingClass, CallingMethod) 
-                                   values (@text, @dateTime, @level, @callingClass, @callingMethod);", _tableName);
         }
 
         private void CreateTable()
@@ -79,29 +73,22 @@ namespace SimpleLogger.Logging.Module
             using (connection)
             {
                 connection.Open();
-                var sqlCommand = DatabaseFactory.GetCommand(_databaseType, @"
-                        select object_name(object_id) as table_name from sys.objects
-                        WHERE type_desc LIKE '%USER_TABLE' and lower(object_name(object_id)) like @tableName;", connection);
+                var sqlCommand = DatabaseFactory.GetCommand
+                (
+                    _databaseType,
+                    DatabaseFactory.GetCheckIfShouldCreateTableQuery(_databaseType), 
+                    connection
+                );
 
-                AddParameter(sqlCommand, "@tableName", _tableName.ToLower(), DbType.String);
+                AddParameter(sqlCommand, ":tableName", _tableName.ToLower(), DbType.String);
 
                 var result = sqlCommand.ExecuteScalar();
 
                 if (result == null)
                 {
-                    var commandText = string.Format(@"
-                            create table {0}
-                            (
-	                            Id int not null primary key identity, 
-                                Text nvarchar(max) null, 
-                                DateTime datetime null, 
-                                Level nvarchar(10) null, 
-                                CallingClass nvarchar(500) NULL, 
-                                CallingMethod nvarchar(500) NULL
-                            );", _tableName);
-
+                    var commandText = string.Format(DatabaseFactory.GetCreateTableQuery(_databaseType), _tableName);
                     sqlCommand = DatabaseFactory.GetCommand(_databaseType, commandText, connection);
-                    sqlCommand.ExecuteNonQuery();
+                    sqlCommand.ExecuteMultipleNonQuery();
                 }
             }
         }
