@@ -125,7 +125,7 @@ namespace SimpleLogger.Logging.Module.Database
             {
                 case DatabaseType.MsSql:
                     return string.Format(@"insert into {0} ([Text], [DateTime], [Log_Level], [CallingClass], [CallingMethod]) 
-                                           values (@text, @dateTime, @level, @callingClass, @callingMethod);", tableName);
+                                           values (@text, @dateTime, @log_level, @callingClass, @callingMethod);", tableName);
                 case DatabaseType.Oracle:
                     return string.Format(@"insert into {0} (Id, Text, DateTime, Log_Level, CallingClass, CallingMethod) 
                                            values (seq_log.nextval, :text, :dateTime, :log_level, :callingClass, :callingMethod)", tableName);
