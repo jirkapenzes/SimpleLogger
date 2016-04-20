@@ -1,6 +1,7 @@
 ﻿using System;
 using SimpleLogger.Logging.Handlers;
 using SimpleLogger.Logging.Module;
+using SimpleLogger.Logging.Module.Database;
 
 namespace SimpleLogger.Sample
 {
@@ -57,10 +58,24 @@ namespace SimpleLogger.Sample
             Console.ReadKey();
         }
 
+        private static void MySqlDatabaseLoggerModuleSample()
+        {
+            // Just add the module and it works! 
+            Logger.Modules.Install(new DatabaseLoggerModule(DatabaseType.MySql, "Your connection string here!"));
+            Logger.Log("My first database log! ");
+        }
+
         private static void MsSqlDatabaseLoggerModuleSample()
         {
             // Just add the module and it works! 
-            Logger.Modules.Install(new MsSqlDatabaseLoggerModule("Your connection string"));
+            Logger.Modules.Install(new DatabaseLoggerModule(DatabaseType.MsSql, "Your connection string here!"));
+            Logger.Log("My first database log! ");
+        }
+
+        private static void OracleDatabaseLoggerModuleSample()
+        {
+            // Just add the module and it works! 
+            Logger.Modules.Install(new DatabaseLoggerModule(DatabaseType.Oracle, "Your connection string here!"));
             Logger.Log("My first database log! ");
         }
 
