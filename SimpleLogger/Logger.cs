@@ -23,12 +23,12 @@ namespace SimpleLogger
         public enum Level
         {
             None,
+            Debug,
+            Fine,
             Info,
             Warning,
             Error,
-            Severe,
-            Fine,
-            Debug
+            Severe
         }
 
         static Logger()
@@ -176,6 +176,67 @@ namespace SimpleLogger
         public static ModuleManager Modules
         {
             get { return ModuleManager; }
+        }
+
+        public static bool StoreLogMessages
+        { 
+            get { return LogPublisher.StoreLogMessages; }
+            set { LogPublisher.StoreLogMessages = value; }
+        }
+
+        static class FilterPredicates
+        {
+            public static bool ByLevelHigher(Level logMessLevel, Level filterLevel)
+            {
+                return ((int)logMessLevel >= (int)filterLevel);
+            }
+
+            public static bool ByLevelLower(Level logMessLevel, Level filterLevel)
+            {
+                return ((int)logMessLevel <= (int)filterLevel);
+            }
+
+            public static bool ByLevelExactly(Level logMessLevel, Level filterLevel)
+            {
+                return ((int)logMessLevel == (int)filterLevel);
+            }
+
+            public static bool ByLevel(LogMessage logMessage, Level filterLevel, Func<Level, Level, bool> filterPred)
+            {
+                return filterPred(logMessage.Level, filterLevel);
+            }
+        }
+
+        public class FilterByLevel
+        {
+            public Level FilteredLevel { get; set; }
+            public bool ExactlyLevel { get; set; }
+            public bool OnlyHigherLevel { get; set; }
+
+            public FilterByLevel(Level level)
+            {
+                FilteredLevel = level;
+                ExactlyLevel = true;
+                OnlyHigherLevel = true;
+            }
+
+            public FilterByLevel() 
+            {
+                ExactlyLevel = false;
+                OnlyHigherLevel = true;
+            }
+
+            public Predicate<LogMessage> Filter { get { return delegate(LogMessage logMessage) {
+                return FilterPredicates.ByLevel(logMessage, FilteredLevel, delegate(Level lm, Level fl) {
+                return ExactlyLevel ? 
+                    FilterPredicates.ByLevelExactly(lm, fl) : 
+                    (OnlyHigherLevel ? 
+                        FilterPredicates.ByLevelHigher(lm, fl) : 
+                        FilterPredicates.ByLevelLower(lm, fl)
+                    );
+                    });
+                }; 
+            }  }
         }
     }
 }
