@@ -1,7 +1,7 @@
 Simple Logger C#.NET
 =============
 
-Very easy to use.
+Very easy to use. (This logger is not THREAD safe !)
 
 Usage
 -------
