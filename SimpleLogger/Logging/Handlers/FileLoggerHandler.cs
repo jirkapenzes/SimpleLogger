@@ -26,7 +26,7 @@ namespace SimpleLogger.Logging.Handlers
             _fileName = fileName;
             _directory = directory;
         }
-
+        private static readonly object Sync = new object();
         public void Publish(LogMessage logMessage)
         {
             if (!string.IsNullOrEmpty(_directory))
@@ -35,9 +35,11 @@ namespace SimpleLogger.Logging.Handlers
                 if (!directoryInfo.Exists)
                     directoryInfo.Create();
             }
-
-            using (var writer = new StreamWriter(File.Open(Path.Combine(_directory, _fileName), FileMode.Append)))
+            lock (Sync)
+            {
+                using (var writer = new StreamWriter(File.Open(Path.Combine(_directory, _fileName), FileMode.Append)))
                 writer.WriteLine(_loggerFormatter.ApplyFormat(logMessage));
+            }
         }
 
         private static string CreateFileName()
